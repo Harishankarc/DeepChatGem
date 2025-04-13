@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+require('dotenv').config();
 const app = express()
 const { OpenAI } = require('openai')
 const PORT = 3000
@@ -8,7 +9,7 @@ app.use(express.json())
 
 const openai = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
-    apiKey: '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',
+    apiKey: process.env.DEEP_SEEK_API_KEY,
 });
 
 async function FetchAIResponse(prompt,data) {
