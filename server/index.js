@@ -9,8 +9,9 @@ app.use(express.json())
 
 const openai = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
-    apiKey: process.env.DEEP_SEEK_API_KEY,
+    apiKey: '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',
 });
+
 
 async function FetchAIResponse(prompt,data) {
     try {

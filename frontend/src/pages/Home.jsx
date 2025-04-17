@@ -28,6 +28,9 @@ export default function Home() {
         fetchCurrentUser()
     }, [])
     async function FetchPrompt() {
+        const userMessage = { user: 'You', message: prompt };
+        const loadingMessage = { user: 'AI', message: '<div>Typing...</div>', isLoading: true };
+        setChatHistory(prev => [...prev, userMessage, loadingMessage]);
         setPrompt('')
         setIsLoading(true)
         try {
@@ -38,8 +41,11 @@ export default function Home() {
             setData(response.data)
             setIsLoading(false)
             const doc = new DOMParser().parseFromString(response.data, 'text/html')
-            console.log(doc.body.innerHTML)
-            setChatHistory([...chatHistory, { user: 'You', message: prompt }, { user: 'AI', message: doc.body.innerHTML }])
+            setChatHistory((prev)=>{
+                const updated = [...prev]
+                updated[updated.length - 1] = { user: 'AI', message: doc.body.innerHTML, isLoading: false }
+                return updated
+            })
         } catch (e) {
             console.log(e)
         }
@@ -86,7 +92,7 @@ export default function Home() {
                     >
                         {message.user === 'You' ? (
                             <p className="text-white">{message.message}</p>
-                        ) : (
+                        ) : !message.isLoading ? (
                             <div>
                                 <div className="text-[#afafaf]" dangerouslySetInnerHTML={{ __html: message.message }} />
                                 <div className='mt-4 flex flex-row gap-4'>
@@ -100,7 +106,7 @@ export default function Home() {
                                     <AiOutlineDislike size={18} color='#afafaf' />
                                 </div>
                             </div>
-                        )}
+                        ) : <div className="animate-pulse text-[#afafaf]">Typing...</div>}
                     </div>
                 ))}
             </div>

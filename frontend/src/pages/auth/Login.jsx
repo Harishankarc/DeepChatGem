@@ -22,13 +22,11 @@ export default function Login() {
   }
   async function HandleGoogleLogin(){
     try{
-        const {data,error } = await supabase.auth.signInWithOAuth({
+        const {error } = await supabase.auth.signInWithOAuth({
             provider: 'google'
         })
         if(error){
             alert(error.message);
-        }else{
-            alert("Signed in with Google");
         }
     }catch(e){
         console.log(e)

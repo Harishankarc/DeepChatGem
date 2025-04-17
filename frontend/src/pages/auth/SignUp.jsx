@@ -8,7 +8,7 @@ export default function SignUp() {
     const [name, setName] = useState("");
     async function HandleSignUp(){
         try{
-            const {data,error} = await supabase.auth.signUp({
+            const {error} = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
@@ -21,7 +21,6 @@ export default function SignUp() {
                 alert(error.message);
             }else{
                 alert("Check your email to verify your account");
-                console.log(data);
             }
         }catch(e){
             console.log(e);
@@ -34,8 +33,6 @@ export default function SignUp() {
             })
             if(error){
                 alert(error.message);
-            }else{
-                alert("Signed in with Google");
             }
         }catch(e){
             console.log(e);
